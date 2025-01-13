@@ -7,18 +7,18 @@ from optimization import Optimization
 from reporting import Reporting
 from check import validate_box_entry, validate_pallet_entry
 
-# Klasa aplikacji do optymalizacji rozmieszczenia pudełek na palecie
+# Klasa do optymalizacji rozmieszczenia pudełek na palecie
 class BoxOptimizerApp:
     def __init__(self, root):
         # Inicjalizacja głównego okna aplikacji
         self.root = root
         self.root.title("OptiPaleta - Optymalizacja rozmieszczenia pudełek na palecie")
 
-        # Główna ramka aplikacji
+        # Główna ramka
         self.frame = ctk.CTkFrame(root, corner_radius=10)
         self.frame.pack(pady=20, padx=20, fill="both", expand=True)
 
-        # Instrukcja użytkowania (estetyczna forma)
+        # Instrukcja
         instructions_text = (
             "1. Wprowadź wymiary palety i maksymalne obciążenie.\n"
             "2. Dodaj pudełko, wpisując jego wymiary, wagę, ilość, oraz blokadę osi (jeśli dotyczy).\n"
@@ -30,14 +30,14 @@ class BoxOptimizerApp:
         self.instructions_label = ctk.CTkLabel(self.frame, text=instructions_text, justify="left")
         self.instructions_label.grid(row=0, column=0, columnspan=3, padx=10, pady=(10, 20), sticky="w")
 
-        # Ustawienia palety - wprowadzenie wymiarów
+        # wprowadzenie wymiarów palety
         self.pallet_label = ctk.CTkLabel(self.frame, text="Wymiary palety [mm] (Dł, Szer, Wys)")
         self.pallet_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
 
         self.pallet_entry = ctk.CTkEntry(self.frame, placeholder_text="np. 1200, 800, 288", width=250)
         self.pallet_entry.grid(row=1, column=1, padx=10, pady=5)
 
-        # Maksymalne obciążenie palety
+        # Maksymalne obciążenie input
         self.max_weight_label = ctk.CTkLabel(self.frame, text="Maksymalne obciążenie palety [kg]")
         self.max_weight_label.grid(row=2, column=0, padx=10, pady=5, sticky="w")
 
@@ -69,26 +69,26 @@ class BoxOptimizerApp:
         self.edit_box_button = ctk.CTkButton(self.frame, text="Edytuj zaznaczone pudełko", command=self.edit_box)
         self.edit_box_button.grid(row=6, column=0, columnspan=3, padx=10, pady=5)
 
-        # Przycisk uruchomienia solvera
+        # Przycisk Uruchomianie solvera
         self.solver_button = ctk.CTkButton(self.frame, text="Solver", command=self.solve_optimization)
         self.solver_button.grid(row=7, column=0, columnspan=3, padx=10, pady=20)
 
-        # Przycisk generowania raportu
+        # Przycisk generowanie raportu
         self.report_button = ctk.CTkButton(self.frame, text="Generuj raport", command=self.generate_report)
         self.report_button.grid(row=8, column=0, columnspan=3, padx=10, pady=20)
 
-        # Przycisk importowania raportu
+        # Przycisk importowanie raportu
         self.import_button = ctk.CTkButton(self.frame, text="Importuj raport", command=self.import_report)
         self.import_button.grid(row=9, column=0, columnspan=3, padx=10, pady=20)
 
-        # Inicjalizacja listy pudełek
+        # Inicjalizacja listy dla pudełek
         self.box_list = []
         self.pallets = []
         self.total_weight = 0
         self.pallet_dimensions = []
         self.max_weight_limit = 0
 
-    # Dodawanie pudełka do listy
+    # Dodawanie pudełka
     def add_box(self):
         if validate_box_entry(self.box_entry):
             box_data = self.box_entry.get().split(',')
@@ -233,7 +233,7 @@ class BoxOptimizerApp:
         except Exception as e:
             messagebox.showerror("Błąd", f"Wystąpił błąd podczas importu: {e}")
 
-    # Funkcja do obliczenia wysokości palety po zatowarowaniu pudełkami
+    # Obliczenia wysokości palety po zatowarowaniu pudełkami
     def calculate_pallet_height(self, pallet):
         height = 144  # Wysokość palety
         for box in pallet['boxes']:
