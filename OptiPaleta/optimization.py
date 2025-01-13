@@ -12,7 +12,7 @@ class Optimization:
         self.pallets = []
 
     def optimize_boxes_with_solver(self):
-        # Definicja solvera problemu pakowania
+        # Definicja solvera
         problem = pulp.LpProblem("Pallet_Optimization", pulp.LpMinimize)
         
         # Ustalamy większą liczbę palet, aby solver miał większą elastyczność
@@ -24,10 +24,10 @@ class Optimization:
         for box in self.box_list:
             box_vars[box['label']] = [pulp.LpVariable(f"Box_{box['label']}_Pallet_{i}", lowBound=0, cat='Integer') for i in range(num_pallets)]
         
-        # Definicja funkcji celu: minimalizowanie liczby palet
+        # Minimalizowanie liczby palet
         problem += pulp.lpSum(pallets)
 
-        # Definicja ograniczeń dla wag, objętości i wysokości palet
+        # Definicja ograniczeń dla wag, objętości i wysokości
         for i in range(num_pallets):
             # Ograniczenie maksymalnej wagi dla każdej palety
             problem += pulp.lpSum([box_vars[box['label']][i] * box['weight'] for box in self.box_list]) <= self.max_weight_limit * pallets[i], f"Weight_Limit_Pallet_{i}"
@@ -82,7 +82,7 @@ class Optimization:
         return report
 
     def calculate_pallet_height(self, pallet):
-        # Funkcja do obliczenia wysokości palety po zatowarowaniu pudełkami
+        # Funkcja do obliczenia wysokości palety
         height = 144  # Wysokość palety
         for box in pallet['boxes']:
             height += box['dimensions'][2] * box['quantity']  # Dodanie wysokości pudełek
